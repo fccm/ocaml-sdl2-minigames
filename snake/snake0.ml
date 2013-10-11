@@ -20,7 +20,7 @@ let black = (0, 0, 0)
 let alpha = 255
 
 let fill_rect renderer (x, y) =
-  let rect = Rect.make x y 20 20 in
+  let rect = Rect.make4 x y 20 20 in
   Render.fill_rect renderer rect;
 ;;
 
