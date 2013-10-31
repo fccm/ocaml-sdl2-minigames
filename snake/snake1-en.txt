@@ -1,0 +1,13 @@
+We reuse the first minimalist snake game and now we organise a
+little bit the code in order to make further evolutions more easy to
+be added.
+
+We create a data structure "game_state" where all the elements of
+the game are together.
+
+All the operations in charge of updating the state of the game
+are grouped together in the procedure "update_state".
+
+A new feature "game_over" occurs when the snake goes outside of the
+window.
+

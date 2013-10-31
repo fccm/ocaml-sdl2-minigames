@@ -1,0 +1,46 @@
+We define the size of the window by its "width" and "height".
+
+The function "fill_rect" fills a rectangle with the current colour.
+
+We define three colours: "red", "blue" and "black".
+
+The function "display" uses the "renderer" to draw the snake segments
+and the fruit.
+
+The function "proc_events" processes the user inputs.
+
+The previous function is called by "event_loop" untill there are no
+events anymore.
+
+"pop" is a function that removes the last element from a list.
+
+We return a new position for a fruit with "new_pos_fruit" which is
+not located at any of the snake segment.
+
+Then there is the entry point where the script begins.
+The first instruction initialises the random generator.
+We initialise the rendering library.
+
+"pos_snake" is the position of the head of the snake, and
+"seg_snake" lists the segments of its tail.
+The goal of the snake is to eat the fruit, its position is
+"pos_fruit".
+The initial direction "dir_snake" of the snake is to the right.
+
+Then the script enters into its main loop where:
+- we recieve the requested direction "req_dir" for the snake from
+  the function "event_loop",
+- we check that requested direction is compatible with the current
+  direction,
+- we push the new head position on top of the snake segment list,
+- if this new head position is at the location of the fruit then:
+  # create a new fruit at a random position with function "new_pos_fruit"
+  # and don't pop the last segment of the snake so that the snake is longer
+    by one segment
+- otherwise, if the head position is not at the fruit location,
+  # push the new head position and pop the last segment from the tail
+
+- then we display the new state of the game,
+- we wait a some milliseconds so that the game is not too fast,
+- and we restart at the beginning of the main loop
+
