@@ -1,0 +1,55 @@
+Premièrement nous définissons la taille de la fenêtre avec
+"width" et "height" (largeur et hauteur).
+
+La fonction "fill_rect" remplit un rectangle avec la couleur courante.
+
+Nous définissons trois couleurs: "red", "blue" et "black"
+(rouge, bleu et noir).
+
+La fonction "display" utilise la variable "renderer" pour dessiner
+les segments du serpent et le fruit.
+
+La fonction "proc_events" traite les entrées de l'utilisateur.
+
+La précédente fonction est appelée par "event_loop" jusqu'à ce qu'il
+n'y est plus d'événement d'entrée de l'utilisateur.
+
+"pop" est une fonction qui supprime le dernier élément d'une liste.
+
+Nous retournons une nouvelle position pour un fruit avec "new_pos_fruit"
+en prenant soin qu'elle ne soit située à aucun segment du serpent.
+
+Nous avons alors le point d'entrée où le script commence.
+La première commande initialise le générateur de nombres aléatoires.
+Nous initialisons alors la bibliothèque de rendu SDL.
+
+"pos_snake" est la position de la tête du serpent, et
+"seg_snake" est la liste des segments de sa queue.
+Le but du jeu du serpent est de manger le fruit, dont la position est
+"pos_fruit".
+La direction initiale du serpent "dir_snake" est vers la droite (right).
+
+Alors le script entre dans sa boucle principale qui réalise les opérations
+suivantes:
+- Nous recevons la direction requise "req_dir" pour le serpent à partir de la
+  fonction "event_loop",
+- Nous vérifions que cette direction requise est compatible avec la direction
+  précédente,
+- On ajoute la nouvelle position de la tête du serpent à la liste des segments
+  du serpent,
+- si cette nouvelle position de la tête se trouve à la position du fruit
+  alors:
+  # créer un nouveau fruit à une position aléatoire avec la fonction
+    "new_pos_fruit"
+  # et ne pas enlever le dernier élément de la queue du serpent de façon à ce
+    que le serpent soit plus long d'un élément lorsque celui-ci "mange" le
+    fruit
+- sinon, si la tête du serpent n'est pas à la position du fruit:
+  # ajouter la nouvelle position de la tête du serpent et supprimer le dernier
+    élément de la queue du serpent afin de le faire avancer.
+
+- puis nous affichons le nouvel état du jeu avec "display",
+- nous faisons une pause de quelques millisecondes pour que le jeu ne soit pas
+  trop rapide,
+- et enfin nous recommençons au début de la boucle principale
+
