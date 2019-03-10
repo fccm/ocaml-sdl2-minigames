@@ -41,6 +41,6 @@ Then the script enters into its main loop where:
   # push the new head position and pop the last segment from the tail
 
 - then we display the new state of the game,
-- we wait a some milliseconds so that the game is not too fast,
+- we wait some milliseconds so that the game is not too fast,
 - and we restart at the beginning of the main loop
 
