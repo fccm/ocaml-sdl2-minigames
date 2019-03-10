@@ -1,0 +1,84 @@
+Tout d'abord quelques variables: width et height sont la largeur et la hauteur
+de la fenêtre, puis quelques couleurs que nous allons utiliser.
+
+La fonction "fill_rect" remplit un carré de 20 par 20 pixel aux coordonnées
+x, y, avec la couleur "color".
+
+La fonction "display" effectue le rendu de la fenêtre.
+"Render.set_draw_color" et "Render.clear" remplissent le fond de noir (black).
+Ensuite on affiche les "bullets" (les balles ennemies), "foes" (les ennemis)
+puis le joueur ("player").
+
+Les fonctions "proc_events" et "event_loop" récupèrent les événements claviers
+du joueur et définissent la direction du joueur en fonction des flèches du
+clavier.
+
+La fonction "bullet_outside" détermine si une balle sort de la fenêtre.
+On ne teste qu'avec la hauteur car la balles ont une direction verticale dans
+cette version.
+
+La fonction "step_bullets" effectue un pas d'itération pour les balles
+ennemies. Cette fonction effectue deux opérations, la première est
+d'incrémenter la position des balles ennemies pour les faire se déplacer vers
+le bas, et la seconde est de supprimer grace à la fonction "bullet_outside"
+les balles qui sortent de la fenêtre afin d'éviter une fuite mémoire.
+
+La fonction "new_foe_pos" crée la position d'un nouvel ennemi en haut de la
+fenêtre avec un paramètre aléatoire pour la position suivant l'axe horizontal.
+
+"new_foes_opt" crée optionellement de nouveaux ennemis. Avec une probabilité
+de 2% un nouvel ennemi sera ajouté à la liste.
+
+La fonction "gun_new_bullets" réalise le tire des ennemis en comparant la
+varialbe "last_shot" (dernier tire) avec une fréqence de tire de 1200
+millisecondes. La fonction auxiliaire "aux" déroule la liste des ennemis
+("foes") et les ajoute inchangés dans "acc2" (accumulateur 2) s'il n'y a pas
+besoin de réaliser un tire, ou sinon ajoute une nouvelle balle à "acc1",
+l'accumulateur des balles, à la position actuelle de l'ennemi, et change la
+date du dernier tire de l'ennemi avec la variable "t". Avec la fonction
+"List.rev_append" on ajoute les nouvelles balles à la liste des balles
+préexistantes.
+
+La fonction "foe_outside" est similaire à la fonction "bullet_outside" mais
+pour un ennemi.
+
+La fonction "step_foes" effectue un pas d'itération pour les ennemis. Elle 
+appelle "new_foes_opt" pour réaliser l'arrivée de nouveau ennemis en haut de
+la fenêtre. Puis elle appelle "gun_new_bullets" pour faire tirer les ennemis.
+Puis la fonction interne "step_foe" pour les faire avancer vers le bas. Puis
+avec la fonction List.fold_left et le test "foe_outside" on élimine les
+ennemis qui sortent de la fenêtre.
+
+La fonction "player_touched" teste si le joueur est touché par une balle
+ennemie. Cette fonction teste l'intersection avec chaque balle de la liste des
+balles avec "List.exists" et "Rect.has_intersection".
+
+La fonction "step_player" réalise un pas d'itération pour le joueur : en
+fonction de la direction requise ("req_dir") on incrémente la position du
+joueur.
+
+Ensuite nous avons la fonction principale, le point d'entrée du programme.
+Celle-ci initialise tout d'abord le générateur de nombres aléatoires.
+On initialise la bibliothèque SDL responsable de l'affichage.
+La fonction "Render.create_window_and_renderer" crée la fenêtre du jeu ainsi
+que la variable "renderer" permettant d'y réaliser le rendu des primitives.
+On initialise la position et la direction du joueur.
+On initialise avec des listes vides la liste des balles et la liste des
+ennemis.
+Puis on entre dans la boucle principale du jeu avec "main_loop".
+Dans la boucle principale on appelle tout d'abord la fonction "event_loop"
+pour récupérer la direction requise du joueur.
+Puis "step_foes", "step_bullets" et "step_player" pour réaliser les pas
+d'itération des différents éléments du jeu, respectivement les ennemis, les
+balles ennemies, et le joueur.
+Une fois les éléments du jeu mis à jour on effectue leur rendu à l'écran avec
+la fonction "display".
+Ensuite la fonction "Timer.delay" effectue une micro-pause pour régler le
+temps d'évolution du jeu, ici 60 millisectondes. Il s'agit ici d'un système de
+réglage du temps très simpliste qu'on utiliserait pas dans un vrai jeu mais
+qui suffit pour un exemple simple comme celui-ci. Pour aller plus loin vous
+pouvez effectuer une recherche avec les mots clefs "game loop" dans un moteur
+de recherche.
+Enfin on appelle notre boucle principale sauf si le joueur est touché par une
+balle ennemie auquel cas le programme se termine brusquement.
+
