@@ -30,7 +30,7 @@ fenêtre avec un paramètre aléatoire pour la position suivant l'axe horizontal
 de 2% un nouvel ennemi sera ajouté à la liste.
 
 La fonction "gun_new_bullets" réalise le tire des ennemis en comparant la
-varialbe "last_shot" (dernier tire) avec une fréqence de tire de 1200
+varialbe "last_shot" (dernier tire) avec une fréquence de tire de 1200
 millisecondes. La fonction auxiliaire "aux" déroule la liste des ennemis
 ("foes") et les ajoute inchangés dans "acc2" (accumulateur 2) s'il n'y a pas
 besoin de réaliser un tire, ou sinon ajoute une nouvelle balle à "acc1",
