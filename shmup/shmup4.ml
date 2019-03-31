@@ -138,7 +138,7 @@ let gun_new_bullets bullets foes player t =
         if t - foe.last_shot < foe.shoot_freq
         then aux acc1 (foe :: acc2) foes
         else
-          let updated_foe = {foe with foe_pos = foe.foe_pos; last_shot = t} in
+          let updated_foe = { foe with last_shot = t } in
           let bullet =
             { bullet_pos = foe.foe_pos;
               bullet_line = (foe.foe_pos, player.player_pos);
@@ -160,7 +160,7 @@ let step_foes foes bullets player t =
   let step_foe foe =
     let (x, y) = foe.foe_pos in
     let new_pos = (x, y + 2) in
-    { foe with foe_pos = new_pos; last_shot = foe.last_shot }
+    { foe with foe_pos = new_pos }
   in
   let foes = new_foes_opt foes t in
   let bullets, foes = gun_new_bullets bullets foes player t in

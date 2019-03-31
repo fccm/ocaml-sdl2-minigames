@@ -116,7 +116,7 @@ let gun_new_bullets bullets foes player t =
         if t - foe.last_shot < foe.shoot_freq
         then aux acc1 (foe :: acc2) foes
         else
-          let updated_foe = {foe with foe_pos = foe.foe_pos; last_shot = t} in
+          let updated_foe = { foe with last_shot = t } in
           let bullet =
             { bullet_pos = foe.foe_pos;
               bullet_dir = (0, 10) }
