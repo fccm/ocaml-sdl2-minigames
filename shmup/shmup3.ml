@@ -150,9 +150,9 @@ let gun_new_bullets bullets foes player t =
   (bullets, foes)
 
 
-let foe_outside foe =
+let foe_inside foe =
   let (x, y) = foe.foe_pos in
-  (y > height)
+  (y < height)
 
 
 let step_foes foes bullets player t =
@@ -164,9 +164,7 @@ let step_foes foes bullets player t =
   let foes = new_foes_opt foes t in
   let bullets, foes = gun_new_bullets bullets foes player t in
   let foes = List.map step_foe foes in
-  let foes = List.fold_left (fun acc foe ->
-      if foe_outside foe then acc else (foe :: acc)
-    ) [] foes in
+  let foes = List.filter foe_inside foes in
   (foes, bullets)
 
 
