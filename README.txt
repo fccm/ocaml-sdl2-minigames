@@ -4,6 +4,9 @@ In each directory several files represent an evolution of the game
 from a very minimal state (file number 0) and the following files add new
 elements, features or refinements of the source code.
 
+You can compare two following files with the command:
+diff -u shmup7.ml shmup8.ml
+
 The documentation is provided into separated files with the same number
 and -en for English language and -fr for French language.
 
