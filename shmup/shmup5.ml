@@ -79,12 +79,12 @@ let rec event_loop player =
       event_loop player
 
 
-let f_bullet_outside bullet =
+let f_bullet_inside bullet =
   let x, y = bullet.bullet_pos in
-  (y > height) ||
-  (x > width) ||
-  (y < -20) ||
-  (x < -20)
+  (y < height) &&
+  (x < width) &&
+  (y > -20) &&
+  (x > -20)
 
 
 let vec_mul (x, y) k =
@@ -115,9 +115,7 @@ let step_foes_bullets f_bullets t =
     { bullet with bullet_pos = p }
   in
   let f_bullets = List.map step_bullet f_bullets in
-  let f_bullets = List.fold_left (fun acc bullet ->
-      if f_bullet_outside bullet then acc else (bullet :: acc)
-    ) [] f_bullets in
+  let f_bullets = List.filter f_bullet_inside f_bullets in
   (f_bullets)
 
 

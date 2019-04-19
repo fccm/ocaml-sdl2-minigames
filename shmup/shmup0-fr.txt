@@ -13,14 +13,14 @@ Les fonctions "proc_events" et "event_loop" récupèrent les événements clavie
 du joueur et définissent la direction du joueur en fonction des flèches du
 clavier.
 
-La fonction "bullet_outside" détermine si une balle sort de la fenêtre.
-On ne teste qu'avec la hauteur car la balles ont une direction verticale dans
+La fonction "bullet_inside" détermine si une balle est toujours dans la fenêtre.
+On ne teste qu'avec la hauteur car les balles ont une direction verticale dans
 cette version.
 
 La fonction "step_bullets" effectue un pas d'itération pour les balles
 ennemies. Cette fonction effectue deux opérations, la première est
 d'incrémenter la position des balles ennemies pour les faire se déplacer vers
-le bas, et la seconde est de supprimer grace à la fonction "bullet_outside"
+le bas, et la seconde est de supprimer grâce à la fonction "bullet_inside"
 les balles qui sortent de la fenêtre afin d'éviter une fuite mémoire.
 
 La fonction "new_foe_pos" crée la position d'un nouvel ennemi en haut de la
@@ -39,14 +39,14 @@ date du dernier tire de l'ennemi avec la variable "t". Avec la fonction
 "List.rev_append" on ajoute les nouvelles balles à la liste des balles
 préexistantes.
 
-La fonction "foe_outside" est similaire à la fonction "bullet_outside" mais
+La fonction "foe_inside" est similaire à la fonction "bullet_inside" mais
 pour un ennemi.
 
 La fonction "step_foes" effectue un pas d'itération pour les ennemis. Elle 
 appelle "new_foes_opt" pour réaliser l'arrivée de nouveau ennemis en haut de
 la fenêtre. Puis elle appelle "gun_new_bullets" pour faire tirer les ennemis.
 Puis la fonction interne "step_foe" pour les faire avancer vers le bas. Puis
-avec la fonction List.fold_left et le test "foe_outside" on élimine les
+avec la fonction List.filter et le test "foe_inside" on élimine les
 ennemis qui sortent de la fenêtre.
 
 La fonction "player_touched" teste si le joueur est touché par une balle

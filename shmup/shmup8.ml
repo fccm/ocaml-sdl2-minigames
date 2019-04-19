@@ -106,12 +106,12 @@ let rec event_loop player =
       event_loop player
 
 
-let f_bullet_outside bullet =
+let f_bullet_inside bullet =
   let x, y = bullet.bullet_pos in
-  (y > height) ||
-  (x > width) ||
-  (y < -20) ||
-  (x < -20)
+  (y < height) &&
+  (x < width) &&
+  (y > -20) &&
+  (x > -20)
 
 
 let vec_mul (x, y) k =
@@ -142,9 +142,7 @@ let step_foes_bullets f_bullets t =
     { bullet with bullet_pos = p }
   in
   let f_bullets = List.map step_bullet f_bullets in
-  let f_bullets = List.fold_left (fun acc bullet ->
-      if f_bullet_outside bullet then acc else (bullet :: acc)
-    ) [] f_bullets in
+  let f_bullets = List.filter f_bullet_inside f_bullets in
   (f_bullets)
 
 
@@ -189,13 +187,14 @@ let foe_inside foe =
   (y < height)
 
 
-let foe_touched p_bullets foe =
+let foe_not_touched p_bullets foe =
   let x, y = foe.foe_pos in
   let foe_rect = Rect.make4 x y 20 20 in
-  List.exists (fun (x, y) ->
-    let bullet_rect = Rect.make4 x y 20 20 in
-    Rect.has_intersection foe_rect bullet_rect
-  ) p_bullets
+  not (
+    List.exists (fun (x, y) ->
+      let bullet_rect = Rect.make4 x y 20 20 in
+      Rect.has_intersection foe_rect bullet_rect
+    ) p_bullets)
 
 
 let step_foes  foes player f_bullets p_bullets t =
@@ -208,12 +207,7 @@ let step_foes  foes player f_bullets p_bullets t =
   let f_bullets, foes = gun_new_f_bullets f_bullets foes player t in
   let foes = List.map step_foe foes in
   let foes = List.filter foe_inside foes in
-  let foes =
-    List.fold_left (fun acc foe ->
-      if foe_touched p_bullets foe
-      then acc else foe :: acc
-    ) [] foes
-  in
+  let foes = List.filter (foe_not_touched p_bullets) foes in
   (foes, f_bullets)
 
 

@@ -56,8 +56,8 @@ let rec event_loop dir_player =
       event_loop dir
 
 
-let bullet_outside (x, y) =
-  (y > height)
+let bullet_inside (x, y) =
+  (y < height)
 
 
 let step_bullets bullets =
@@ -66,9 +66,7 @@ let step_bullets bullets =
     (x, y + 10)
   in
   let bullets = List.map step_bullet bullets in
-  let bullets = List.fold_left (fun acc bullet ->
-      if bullet_outside bullet then acc else (bullet :: acc)
-    ) [] bullets in
+  let bullets = List.filter bullet_inside bullets in
   (bullets)
 
 
