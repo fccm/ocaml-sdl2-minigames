@@ -81,26 +81,34 @@ let new_rect () =
   }
 
 
+let rect_move rects =
+  List.map (fun r ->
+    { r with
+      x = r.x +. r.dx;
+      y = r.y +. r.dy;
+    }
+  ) rects
+
+
+let rect_inside rects =
+  List.map (fun r ->
+    if r.x < 0.0 then
+      { r with dx = Float.abs r.dx }
+    else if r.y < 0.0 then
+      { r with dy = Float.abs r.dy }
+    else if r.x +. r.size > float width then
+      { r with dx = -. (Float.abs r.dx) }
+    else if r.y +. r.size > float height then
+      { r with dy = -. (Float.abs r.dy) }
+    else 
+      r
+  ) rects
+
+
 let step_rects rects =
-  rects |>
-    (List.map (fun r ->
-      { r with
-        x = r.x +. r.dx;
-        y = r.y +. r.dy;
-      }
-    )) |>
-    (List.map (fun r ->
-      if r.x < 0.0 then
-        { r with dx = Float.abs r.dx }
-      else if r.y < 0.0 then
-        { r with dy = Float.abs r.dy }
-      else if r.x +. r.size > float width then
-        { r with dx = -. (Float.abs r.dx) }
-      else if r.y +. r.size > float height then
-        { r with dy = -. (Float.abs r.dy) }
-      else 
-        r
-    ))
+  rects
+    |> rect_move
+    |> rect_inside
 
 
 let () =
