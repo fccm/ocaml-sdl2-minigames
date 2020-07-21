@@ -1,0 +1,81 @@
+We define the width and height variables as 640 and 480 integers.
+We define the black color with a tuple of three integers, three zeros
+for the three color components, red, green and blue.
+The alpha channel is defined with integer 255 for full opacity (zero would
+be for full transparency).
+
+We define a rect type, for the rectangles entities that we will use.
+This rect type contains the following fields:
+- x and y as floating point numbers, represent the position of the entity
+- dx and dy (also as floating point numbers) will be used to move the entity
+  at each rendering steps.
+- size is as you will guess the size of the rectangle (in fact these rectangles
+  are squares)
+- the color field contains three integers that represent the three primary components
+  to define a color, respectively red, green and blue (RGB). Each component is an
+  integer between 0 and 255 (included)
+
+The "proc_events" function handles user inputs.
+The three inputs handled are key press on letter 'Q', key press on key "Escape", or
+a mouse clic on the cross of the window handle (the user wants to close the window
+using the mouse). On any of these three events the program will exit.
+
+The "event_loop" function will loop calling "proc_events" repeatedly with user
+inputs untill there are no user events anymore.
+This would be an error to process only one user input at each game loop step,
+because if you do so, if several user input events arrive on one game loop step,
+the result will be a delay in the processing of the user input events.
+
+The function "fill_rect" draws a rectangle filled with a given color.
+Three steps are needed to achieve this, firstly define a "rect" structure with the
+'x' and 'y' position. Secondly we set the color with which we want to draw the
+rectangle. Then we call the "Render.fill_rect" function to fill a rectangle with
+the color just defined. (The first argument passed to this function is the SDL
+renderer used to render something on screen.)
+
+The "draw_rects" function will draw a list of rectangle. This list of rectangles
+is the "rects" argument. The standard library of OCaml provides the function
+"List.iter" to apply a function in turn to each elements of a list:
+https://ocaml.org/releases/4.10/htmlman/libref/List.html#VALiter
+Here this function is an anonymous function defined with the ocaml keyword "fun".
+This function accesses and converts the x, y and size fields into integers
+before to pass it to the "fill_rect" function.
+We convert floating point numbers into integer numbers with the ocaml function
+"int_of_float". OCaml doesn't implicitly convert floats and integers in order
+to avoid bugs, because bugs due to automatic floats/ints convertions are
+sometimes difficult to find in other programming languages.
+
+The "display" function is the main function responsible of drawing everything
+on screen.
+First we define the background color as black with "Render.set_draw_color".
+This color is only really applied when we call "Render.clear".
+We request to draw the list of rectangles by calling "draw_rects".
+At the end of the display function we need to "flush" all the drawing operations
+with "Render.render_present". We need to do this once at the end of each loop
+step.
+
+The "new_color" function creates a new random color by calling "Random.int"
+three times. "Random.int" returns a random integer number between 0 (included)
+and the number provided as argument (excluded).
+
+The "new_rect" function returns a new "rect" structure (defined previously
+with "type rect"). Every fields are defined with a random value except the "size"
+field that is always set with "16.0".
+The "float" function is an alias for the "float_of_int" function which converts
+an integer number into a floating point number.
+
+The "step_rects" function processes a step on each rectangles in every game
+loop. It "maps" the rectangles list through two functions: "rect_move" and
+"rect_inside".
+The two following ways to write the "step_rects" function are equivalent:
+
+let step_rects rects =
+  rects
+    |> rect_move
+    |> rect_inside
+
+let step_rects rects =
+  let rects = rect_move rects in
+  let rects = rect_inside rects in
+  (rects)
+
