@@ -28,10 +28,12 @@ module IntPairs =
 
 module PairsMap = Map.Make(IntPairs)
 
+
 let fill_rect renderer (x, y) (w, h) =
   let rect = Rect.make4 x y w h in
   Render.fill_rect renderer rect;
 ;;
+
 
 let display renderer map entities =
   Render.set_draw_color renderer bkgnd alpha;
@@ -55,11 +57,13 @@ let display renderer map entities =
   Render.render_present renderer;
 ;;
 
+
 let proc_events = function
   | Event.KeyDown { Event.keycode = Keycode.Q }
   | Event.KeyDown { Event.keycode = Keycode.Escape }
   | Event.Quit _ -> Sdl.quit (); exit 0
   | _ -> ()
+
 
 let rec event_loop () =
   match Event.poll_event () with
@@ -68,9 +72,10 @@ let rec event_loop () =
       let () = proc_events ev in
       event_loop ()
 
+
 let () =
   Random.self_init ();
-  Sdl.init [`VIDEO];
+  Sdl.init [`VIDEO; `TIMER];
   let window, renderer =
     Render.create_window_and_renderer ~width ~height ~flags:[]
   in
