@@ -1,0 +1,64 @@
+--- 9x17hell-0.ml
++++ 9x17hell-1.ml
+@@ -31,10 +31,11 @@
+ ;;
+ 
+ 
+-let display renderer pos_player =
++let display renderer debris pos_player =
+   Render.set_draw_color renderer dark alpha;
+   Render.clear renderer;
+   fill_rect renderer blue pos_player;
++  List.iter (fill_rect renderer red) debris;
+   Render.render_present renderer;
+ ;;
+ 
+@@ -56,15 +57,34 @@
+       event_loop dir
+ 
+ 
++let new_debris () =
++  (Random.int 9, 0)
++
++
++let new_debris_opt debris =
++  if Random.int 3 = 0
++  then (new_debris ()) :: debris
++  else debris
++
++
++let step_debris debris =
++  let debris = List.map (fun (x, y) -> (x, y + 1)) debris in
++  let debris = List.filter (fun (x, y) -> (y < 17)) debris in
++  let debris = new_debris_opt debris in
++  (debris)
++
++
+ let () =
++  Random.self_init ();
+   Sdl.init [`VIDEO; `TIMER];
+   let window, renderer =
+     Render.create_window_and_renderer
+       ~width ~height ~flags:[]
+   in
+   let pos_player = (4, 16) in
++  let debris = [] in
+ 
+-  let rec main_loop pos_player =
++  let rec main_loop debris pos_player =
+     let dir_player = event_loop `none in
+     let pos_player =
+       let x, y = pos_player in
+@@ -73,8 +93,9 @@
+       | `right -> (x + 1, y)
+       | `none  -> (x, y)
+     in
+-    display renderer pos_player;
++    let debris = step_debris debris in
++    display renderer debris pos_player;
+     Timer.delay 160;
+-    main_loop pos_player
++    main_loop debris pos_player
+   in
+-  main_loop pos_player
++  main_loop debris pos_player

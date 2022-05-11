@@ -1,0 +1,48 @@
+First we define some variables:
+- we define a grid of 9 by 17 cells,
+- the size of a cell will be 20 pixels,
+- the width and height of the window in pixels
+  (defined by the number of cells multiplied by the size of a cell.)
+
+The function "fill_rect" draws a rectangle filled with a given color.
+Three steps are needed to achieve this, firstly define a "rect" structure with the
+'x' and 'y' position, and the size of a cell.
+Secondly we set the color with which we want to draw the rectangle.
+Then we call the "Render.fill_rect" function to fill a rectangle with
+the color just defined. (The first argument passed to this function is the SDL
+renderer used to render something on screen.)
+
+The "display" function is the main function responsible of drawing everything
+on screen:
+- first we define the background color with a dark grey with "Render.set_draw_color",
+- this color is only really applied when we call "Render.clear",
+- we request to draw the player with a rectangle by calling "fill_rect" at the
+  position "pos_player",
+- at the end of the display function we need to "flush" all the drawing operations
+  with "Render.render_present". We need to do this once at the end of each loop step.
+
+The "proc_events" function handles user inputs.
+If the left or right arrow keys are pressed we return this direction.
+If there is a key press on letter 'Q', key press on key "Escape", or a mouse clic
+on the cross of the window handle (the user wants to close the window
+using the mouse), then the program will exit.
+
+The "event_loop" function will loop calling "proc_events" repeatedly with user
+inputs untill there are no user events anymore.
+(This would be an error to process only one user input at each game loop step,
+because if you do so, if several user input events arrive on one game loop step,
+the result will be a delay in the processing of the user input events.)
+
+Then there is the entry point where the program begins.
+We initialise the rendering library (SDL2).
+
+The function "Render.create_window_and_renderer" creates a window and returns
+the variable "renderer" that we will use to draw in the window.
+We initialise the position of the player.
+
+Then the program enters into its main loop ("main_loop") where:
+- we call the function "event_loop" to get the direction of the player,
+- we update the position of the player based on the requested direction,
+- then we call the "display" function to draw the state of the game,
+- we wait some milliseconds so that the game is not too fast,
+- and we restart at the beginning of the main loop.

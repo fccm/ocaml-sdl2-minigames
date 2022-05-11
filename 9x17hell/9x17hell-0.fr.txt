@@ -1,0 +1,39 @@
+Tout d'abord quelques variables:
+on définit une grille de 9 par 17 cellules,
+la taille d'une cellule de 20 pixels,
+width et height sont la largeur et la hauteur de la fenêtre
+(le nombre de cellules multiplié par la taille d'une cellule en pixels).
+
+La fonction "fill_rect" remplit un carré de 20 par 20 pixel aux coordonnées
+x, y, avec la couleur "color".
+
+La fonction "display" effectue le rendu de la fenêtre.
+"Render.set_draw_color" et "Render.clear" remplissent le fond avec un gris sombre.
+Ensuite on affiche l'avatar du joueur "pos_player" avec un carré.
+
+Les fonctions "proc_events" et "event_loop" récupèrent les événements claviers
+du joueur et définissent la direction du joueur en fonction des flèches du
+clavier droite et gauche.
+
+Ensuite nous avons la fonction principale, le point d'entrée du programme.
+On initialise la bibliothèque SDL responsable de l'affichage.
+La fonction "Render.create_window_and_renderer" crée la fenêtre du jeu ainsi
+que la variable "renderer" permettant d'y réaliser le rendu des primitives.
+On initialise la position du joueur.
+
+Puis on entre dans la boucle principale du jeu avec "main_loop".
+Dans la boucle principale on appelle tout d'abord la fonction "event_loop"
+pour récupérer la direction requise du joueur.
+On mets à jour la position du joueur en fonction de la direction requise.
+
+Une fois la position du joueur mis à jour on effectue le rendu à l'écran avec
+la fonction "display".
+
+Ensuite la fonction "Timer.delay" effectue une micro-pause pour régler le
+temps d'évolution du jeu, ici 160 millisectondes.
+Il s'agit ici d'un système de réglage du temps très simpliste qu'on utiliserait
+pas dans un vrai jeu mais qui suffit pour un exemple simple comme celui-ci.
+Pour aller plus loin vous pouvez effectuer une recherche avec les mots clefs
+"game loop" dans un moteur de recherche.
+
+Enfin on appelle notre boucle principale de manière récursive.

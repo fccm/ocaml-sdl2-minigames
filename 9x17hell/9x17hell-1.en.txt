@@ -1,0 +1,25 @@
+In this second version we add obstacles that will arrive from the top of the
+window, and which will go down to the bottom.
+
+We want these obstacles to arrive randomly so that we have to initialise the
+random generator at the beginning of our program with "Random.self_init ()".
+
+We then initialise a value "debris" with an empty list, and we pass this value
+to each step of the "main_loop" so that we can update it at each step.
+
+In the main loop the function "step_debris" makes three operations:
+- each obstacle is moved to the bottom by one cell by adding 1 to the "y" coordinate
+- we remove the obstacle that arrived out of the window with a filter on the
+  obstacle list and the test (y < 17)
+- we optionaly add new obstacle at the top of the window
+
+The function "new_debris" returns a new obstacle at the top of the window
+with a random position on the abscissa axis.
+
+The function "new_debris_opt" adds a new obstacle to the obstacles list or not
+depending on a given probability. This probability is set with a call to
+"Random.int" that we compare to a given value.
+
+Finally we display these obstacles in the "display" function by calling
+the iterator "List.iter" with a partial application to the function "fill_rect"
+while the position of the square is the last parameter of this function.

@@ -1,0 +1,28 @@
+Dans cette deuxième version on ajoute des obstacles qui arrivent du haut de la
+fenêtre, et qui descendent vers la bas.
+
+Tout d'abord on initialise le générateur de nombres aléatoires au début de
+l'exécution du program juste après le point d'entrée avec "Random.self_init ()".
+
+Ensuite on initialise la variable "debris" avec une liste vide, et on passe
+cette variable comme paramètre dans la boucle principale "main_loop" pour
+pouvoir la faire évoluer à chaque étape du jeu.
+
+Dans la boucle principale la function "step_debris" réalise trois opérations:
+- chaque obstacle est déplacé d'une cellule vers le bas en ajoutant 1
+  à sa coordonnée "y"
+- ensuite on enlève les obstacles qui sont arrivés en bas hors de la fenêtre
+  avec le test (y < 17)
+- on ajoute de nouveaux obstacles en haut de la fenêtre
+
+La fonction "new_debris" crée un nouvel obstacle en haut de l'écran avec une
+position aléatoire sur l'axe des abscisses.
+
+La fonction "new_debris_opt" ajoute un nouvel obstacle à la liste des obstacles
+ou pas en fonction d'une certaine probabilité réalisée avec un appel à
+"Random.int" et une comparaison de la valeur retournée.
+
+Et enfin on affiche tous ces obstacles dans la fonction "display" à l'aide
+de l'itérateur "List.iter" avec lequel on réalise une application partielle
+de la fonction d'affichage "fill_rect" la position du carré étant le dernier
+paramètre de cette dernière fonction.
