@@ -10,4 +10,7 @@ diff -u shmup7.ml shmup8.ml
 The documentation is provided into separated files with the same number
 and -en for English language and -fr for French language.
 
-All the examples need OCamlSDL2 to work.
+All the examples need OCamlSDL2 to work,  
+to run one of these mini-games you can use this command:
+
+ocaml -I ../OCamlSDL2/src sdl2.cma minigame.ml
